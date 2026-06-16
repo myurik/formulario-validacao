@@ -1,0 +1,250 @@
+:root {
+    --cor-fundo: #2D3142;
+    --cor-card: #4F5D75;
+    --cor-texto-secundario: #BFC0C0;
+    --cor-texto: #FFFFFF;
+    --cor-destaque: #EF8354;
+    --cor-erro: #e63946;
+    --cor-sucesso: #2ecc71;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+}
+
+main {
+    background-color: var(--cor-card);
+    width: 100%;
+    max-width: 480px;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    color: var(--cor-texto);
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+}
+
+label {
+    color: var(--cor-texto-secundario);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+input:not([type="file"]):not([type="checkbox"]):not([type="date"]) {
+    background-color: var(--cor-fundo);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--cor-texto);
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+input:not([type="file"]):not([type="checkbox"]):not([type="date"])::placeholder {
+    color: var(--cor-texto-secundario);
+    opacity: 0.6;
+}
+
+input:not([type="file"]):not([type="checkbox"]):not([type="date"]):focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+.erro {
+    color: var(--cor-erro);
+    font-size: 0.8rem;
+    min-height: 1rem;
+}
+
+/* Correção do olhinho */
+.input-com-icone {
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-fundo);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+}
+
+.input-com-icone:focus-within {
+    border-color: var(--cor-destaque);
+}
+
+.input-com-icone input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.75rem 1rem;
+    color: var(--cor-texto);
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-com-icone input::placeholder {
+    color: var(--cor-texto-secundario);
+    opacity: 0.6;
+}
+
+/* Remove a borda do :focus nos inputs dentro de .input-com-icone */
+.input-com-icone input:focus {
+    border-color: transparent;
+}
+
+.btn-toggle-senha {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    color: var(--cor-texto-secundario);
+    display: flex;
+    align-items: center;
+}
+
+.btn-toggle-senha:hover {
+    color: var(--cor-destaque);
+}
+
+/* Input de data */
+input[type="date"] {
+    background-color: var(--cor-fundo);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--cor-texto);
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.2s ease;
+    color-scheme: dark;
+}
+
+input[type="date"]:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+/* Botão Criar Conta */
+#btn-cadastrar {
+    width: 100%;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cor-destaque);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+#btn-cadastrar:hover {
+    opacity: 0.9;
+}
+
+#btn-cadastrar:active {
+    transform: scale(0.98);
+}
+
+/* Esconde o input file padrão */
+input[type="file"] {
+    display: none;
+}
+
+/* Campo foto centralizado */
+.campo-foto {
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+/* O círculo clicável */
+.preview-foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--cor-fundo);
+    border: 3px dashed var(--cor-destaque);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+    position: relative;
+}
+
+.preview-foto:hover {
+    opacity: 0.85;
+}
+
+.preview-foto::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='%23BFC0C0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'%3E%3C/path%3E%3Ccircle cx='12' cy='13' r='4'%3E%3C/circle%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.campo-foto label {
+    cursor: pointer;
+    color: var(--cor-texto-secundario);
+    font-size: 0.85rem;
+}
+
+/* Grupo do checkbox */
+.checkbox-grupo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.checkbox-grupo label {
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Checkbox com accent-color (já conhecemos!) */
+input[type="checkbox"] {
+    accent-color: var(--cor-destaque);
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Link "Termos de Uso" */
+a {
+    color: var(--cor-destaque);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
