@@ -8,6 +8,9 @@ const olhoAbertoSenha = document.getElementById("olho-aberto-senha");
 const olhoAbertoConfirmarSenha = document.getElementById("olho-aberto-confirmar");
 const olhoFechadoSenha = document.getElementById("olho-fechado-senha");
 const olhoFechadoConfirmarSenha = document.getElementById("olho-fechado-confirmar");
+const inputCPF = document.getElementById("cpf");
+const inputTelefone = document.getElementById("telefone");
+
 
 previewFoto.addEventListener("click", function(){
     inputFoto.click();
@@ -56,3 +59,28 @@ toggleConfirmarSenha.addEventListener("click", function(){
         olhoFechadoConfirmarSenha.style.display = "none";
     }
 });
+
+function mascaraCPF(valor) {
+    valor = valor.replace(/\D/g, '');           // remove tudo que não é dígito
+    valor = valor.slice(0, 11);                 // limita a 11 dígitos
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');         // coloca o 1º ponto
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');         // coloca o 2º ponto
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');   // coloca o hífen
+    return valor;
+}
+
+function mascaraTelefone(valor) {
+    valor = valor.replace(/\D/g, '');           // remove tudo que não é dígito
+    valor = valor.slice(0, 11);                 // limita a 11 dígitos
+    valor = valor.replace(/(\d{2})(\d)/, '($1) $2');
+    valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
+    return valor;
+}
+
+inputCPF.addEventListener("input", function(){
+    inputCPF.value = mascaraCPF(inputCPF.value);
+})
+
+inputTelefone.addEventListener("input", function (){
+    inputTelefone.value = mascaraTelefone(inputTelefone.value);
+})
