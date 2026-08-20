@@ -209,6 +209,9 @@ input[type="file"] {
     background-repeat: no-repeat;
     background-position: center;
 }
+.preview-foto.tem-foto::before {
+    display: none;
+}
 
 .campo-foto label {
     cursor: pointer;
