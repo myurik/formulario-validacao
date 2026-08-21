@@ -10,7 +10,11 @@ const olhoFechadoSenha = document.getElementById("olho-fechado-senha");
 const olhoFechadoConfirmarSenha = document.getElementById("olho-fechado-confirmar");
 const inputCPF = document.getElementById("cpf");
 const inputTelefone = document.getElementById("telefone");
-
+const inputNome = document.getElementById("nome");
+const inputEmail = document.getElementById("email");
+const inputDataNascimento = document.getElementById("data-nascimento");
+const checkTermos = document.getElementById("termos");
+const form = document.getElementById("form-cadastro");
 
 previewFoto.addEventListener("click", function(){
     inputFoto.click();
@@ -77,10 +81,218 @@ function mascaraTelefone(valor) {
     return valor;
 }
 
-inputCPF.addEventListener("input", function(){
-    inputCPF.value = mascaraCPF(inputCPF.value);
-})
 
-inputTelefone.addEventListener("input", function (){
-    inputTelefone.value = mascaraTelefone(inputTelefone.value);
-})
+function mostrarErro(idErro, mensagem) {
+    document.getElementById(idErro).textContent = mensagem;
+}
+function limparErro(idErro){
+    document.getElementById(idErro).textContent = "";
+}
+
+function validarNome(){
+    const valor = inputNome.value.trim();
+
+    if (valor === ""){
+        mostrarErro("erro-nome", "Nome é obrigatório.")
+        return false;
+    }
+    if (valor.length < 3){
+        mostrarErro("erro-nome", "Nome deve ter pelo menos 3 caracteres.")
+        return false;
+    }
+    limparErro("erro-nome");
+    return true;
+}
+
+inputNome.addEventListener("blur", validarNome);
+
+function validarEmail(){
+    const valor = inputEmail.value.trim();
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(valor === ""){
+        mostrarErro("erro-email", "E-mail é obrigatório.")
+        return false
+    }
+    if(!regex.test(valor)){
+        mostrarErro("erro-email", "Digite um e-mail válido.");
+        return false;
+    }
+    limparErro("erro-email");
+    return true;
+}
+
+inputEmail.addEventListener("blur", validarEmail);
+
+function validarCPF(){
+    const valor = inputCPF.value.replace(/\D/g, '');
+
+    if (valor === "") {
+        mostrarErro("erro-cpf", "CPF é obrigatório.");
+        return false;
+    }
+    if (valor.length !== 11) {
+        mostrarErro("erro-cpf", "CPF deve ter 11 dígitos.");
+        return false;
+    }
+
+    // Rejeita CPFs com todos os dígitos iguais (ex: 111.111.111-11)
+    if (/^(\d)\1{10}$/.test(valor)) {
+        mostrarErro("erro-cpf", "CPF inválido.");
+        return false;
+    }
+
+    // Cálculo do 1º dígito verificador
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += Number(valor[i]) * (10 - i);
+    }
+    let resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== Number(valor[9])) {
+        mostrarErro("erro-cpf", "CPF inválido.");
+        return false;
+    }
+
+    // Cálculo do 2º dígito verificador
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += Number(valor[i]) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== Number(valor[10])) {
+        mostrarErro("erro-cpf", "CPF inválido.");
+        return false;
+    }
+
+    limparErro("erro-cpf");
+    return true;
+}
+
+inputCPF.addEventListener("blur", validarCPF);
+
+function validarTelefone() {
+    const valor = inputTelefone.value.replace(/\D/g, '');
+    if (valor === "") {
+        mostrarErro("erro-telefone", "Telefone é obrigatório.");
+        return false;
+    }
+    if (valor.length < 10 || valor.length > 11) {
+        mostrarErro("erro-telefone", "Telefone inválido.");
+        return false;
+    }
+    limparErro("erro-telefone");
+    return true;
+}
+
+inputTelefone.addEventListener("blur", validarTelefone);
+
+function validarDataNascimento() {
+    const valor = inputDataNascimento.value;
+
+    if (valor === "") {
+        mostrarErro("erro-data-nascimento", "Data de nascimento é obrigatória.");
+        return false;
+    }
+
+    const dataNascimento = new Date(valor);
+    const hoje = new Date();
+
+    // Calcula a data de 18 anos atrás a partir de hoje
+    const dezoitoAnosAtras = new Date(
+        hoje.getFullYear() - 18,
+        hoje.getMonth(),
+        hoje.getDate()
+    );
+
+    if (dataNascimento > dezoitoAnosAtras) {
+        mostrarErro("erro-data-nascimento", "Você deve ter pelo menos 18 anos.");
+        return false;
+    }
+
+    limparErro("erro-data-nascimento");
+    return true;
+}
+
+inputDataNascimento.addEventListener("blur", validarDataNascimento);
+
+function validarSenha() {
+    const valor = inputSenha.value;
+    const temLetra = /[a-zA-Z]/.test(valor);
+    const temNumero = /[0-9]/.test(valor);
+
+    if (valor === "") {
+        mostrarErro("erro-senha", "Senha é obrigatória.");
+        return false;
+    }
+    if (valor.length < 8) {
+        mostrarErro("erro-senha", "Senha deve ter pelo menos 8 caracteres.");
+        return false;
+    }
+    if (!temLetra || !temNumero) {
+        mostrarErro("erro-senha", "Senha deve ter letras e números.");
+        return false;
+    }
+    limparErro("erro-senha");
+    return true;
+}
+
+function validarConfirmarSenha() {
+    const valor = inputConfirmarSenha.value;
+
+    if (valor === "") {
+        mostrarErro("erro-confirmar-senha", "Confirmação de senha é obrigatória.");
+        return false;
+    }
+    if (valor !== inputSenha.value) {
+        mostrarErro("erro-confirmar-senha", "As senhas não coincidem.");
+        return false;
+    }
+    limparErro("erro-confirmar-senha");
+    return true;
+}
+
+inputSenha.addEventListener("blur", function (){
+    validarSenha();
+        // Se confirmação já foi preenchida, revalida ela também
+    if (inputConfirmarSenha.value !== "") {
+        validarConfirmarSenha();
+    }
+});
+
+inputConfirmarSenha.addEventListener("blur", validarConfirmarSenha);
+
+function validarTermos() {
+    if (!checkTermos.checked) {
+        mostrarErro("erro-termos", "Você deve aceitar os termos de uso.");
+        return false;
+    }
+    limparErro("erro-termos");
+    return true;
+}
+
+form.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const valido =
+        validarNome() &
+        validarEmail() &
+        validarCPF() &
+        validarTelefone() &
+        validarDataNascimento() &
+        validarSenha() &
+        validarConfirmarSenha() &
+        validarTermos();
+
+    if (valido) {
+        mostrarSucesso();
+    }
+});
+
+function mostrarSucesso() {
+    alert("Cadastro realizado com sucesso!");
+    form.reset();
+    previewFoto.innerHTML = "";
+    previewFoto.classList.remove("tem-foto");
+}
