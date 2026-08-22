@@ -15,6 +15,8 @@ const inputEmail = document.getElementById("email");
 const inputDataNascimento = document.getElementById("data-nascimento");
 const checkTermos = document.getElementById("termos");
 const form = document.getElementById("form-cadastro");
+const mensagemSucesso = document.getElementById("mensagem-sucesso");
+
 
 previewFoto.addEventListener("click", function(){
     inputFoto.click();
@@ -23,20 +25,17 @@ previewFoto.addEventListener("click", function(){
 inputFoto.addEventListener("change", function() {
     const arquivo = inputFoto.files[0];
 
-    if (arquivo){
-        const reader = new FileReader();
+    if (arquivo) {
+        const urlImagem = URL.createObjectURL(arquivo);
 
-        reader.onload = function(e){
-            const img = document.createElement("img");
-            img.src = e.target.result;
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = "cover";
-            previewFoto.innerHTML = "";
-            previewFoto.appendChild(img);
-            previewFoto.classList.add("tem-foto");
-        }
-        reader.readAsDataURL(arquivo);
+        const img = document.createElement("img");
+        img.src = urlImagem;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = "cover";
+        previewFoto.innerHTML = "";
+        previewFoto.appendChild(img);
+        previewFoto.classList.add("tem-foto");
     }
 });
 
@@ -313,10 +312,8 @@ form.addEventListener("submit", function(evento) {
     }
 });
 
-function mostrarSucesso() {
-    alert("Cadastro realizado com sucesso!");
-    form.reset();
-    previewFoto.innerHTML = "";
-    previewFoto.classList.remove("tem-foto");
-}
 
+function mostrarSucesso() {
+    form.style.display = "none";
+    mensagemSucesso.classList.add("ativo");
+}
