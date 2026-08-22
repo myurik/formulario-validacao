@@ -81,12 +81,28 @@ function mascaraTelefone(valor) {
     return valor;
 }
 
+inputCPF.addEventListener("input", function(){
+    inputCPF.value = mascaraCPF(inputCPF.value);
+})
+
+inputTelefone.addEventListener("input", function (){
+    inputTelefone.value = mascaraTelefone(inputTelefone.value);
+})
+
 
 function mostrarErro(idErro, mensagem) {
     document.getElementById(idErro).textContent = mensagem;
 }
 function limparErro(idErro){
     document.getElementById(idErro).textContent = "";
+}
+function validarEmTempoReal(input, idErro, funcaoValidacao){
+    input.addEventListener("input", function(){
+        const erroAtual = document.getElementById(idErro).textContent;
+        if (erroAtual !== ""){
+            funcaoValidacao();
+        }
+    });
 }
 
 function validarNome(){
@@ -105,6 +121,7 @@ function validarNome(){
 }
 
 inputNome.addEventListener("blur", validarNome);
+validarEmTempoReal(inputNome, "erro-nome", validarNome);
 
 function validarEmail(){
     const valor = inputEmail.value.trim();
@@ -123,6 +140,7 @@ function validarEmail(){
 }
 
 inputEmail.addEventListener("blur", validarEmail);
+validarEmTempoReal(inputEmail, "erro-email", validarEmail);
 
 function validarCPF(){
     const valor = inputCPF.value.replace(/\D/g, '');
@@ -171,6 +189,7 @@ function validarCPF(){
 }
 
 inputCPF.addEventListener("blur", validarCPF);
+validarEmTempoReal(inputCPF, "erro-cpf", validarCPF);
 
 function validarTelefone() {
     const valor = inputTelefone.value.replace(/\D/g, '');
@@ -187,6 +206,7 @@ function validarTelefone() {
 }
 
 inputTelefone.addEventListener("blur", validarTelefone);
+validarEmTempoReal(inputTelefone, "erro-telefone", validarTelefone);
 
 function validarDataNascimento() {
     const valor = inputDataNascimento.value;
@@ -216,6 +236,7 @@ function validarDataNascimento() {
 }
 
 inputDataNascimento.addEventListener("blur", validarDataNascimento);
+validarEmTempoReal(inputDataNascimento, "erro-data-nascimento", validarDataNascimento);
 
 function validarSenha() {
     const valor = inputSenha.value;
@@ -262,6 +283,8 @@ inputSenha.addEventListener("blur", function (){
 });
 
 inputConfirmarSenha.addEventListener("blur", validarConfirmarSenha);
+validarEmTempoReal(inputSenha, "erro-senha", validarSenha);
+validarEmTempoReal(inputConfirmarSenha, "erro-confirmar-senha", validarConfirmarSenha);
 
 function validarTermos() {
     if (!checkTermos.checked) {
@@ -296,3 +319,4 @@ function mostrarSucesso() {
     previewFoto.innerHTML = "";
     previewFoto.classList.remove("tem-foto");
 }
+
